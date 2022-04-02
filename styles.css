@@ -1,0 +1,260 @@
+.navigation {
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    top: 0;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    position: fixed;
+    align-items: center;
+
+}
+.navigation #name {
+    font-size: 30px;
+    font-family: 'Comfortaa', cursive;
+}
+.navigation #myuser {
+    padding: 12px;
+    margin-left: auto;
+    align-items: center;
+    text-align: center;
+    margin-right: 15px;
+    font-family: 'Comfortaa', cursive;
+}
+.navigation #sign {
+    text-align: center;
+    margin-right: 10px;
+    font-family: 'Comfortaa', cursive;
+}
+
+.recommendations #username{
+    font-size: 15px;
+    font-family: 'Comfortaa', cursive;
+}
+.recommendations #mainUser {
+    display: flex;
+    padding-top: 12px;
+    align-items: center;
+    font-size: 28px;
+    font-family: 'Comfortaa', cursive;
+}
+.recommendations{
+    width: 35%;
+    height: 100vh;
+    background-color: rgb(28, 220, 220);
+    margin-top: 25px;
+    margin-left: 700px;
+    display: inline-block;
+    color: rgba(129, 125, 125, 0.884);
+    position: fixed;
+    font-family: 'Comfortaa', cursive;
+    font-size: 10px;
+  }
+
+.rec {
+    display: grid;
+    grid-template-columns: 120px;
+    margin-left: 10px;
+}
+
+/* circular profile images*/
+.recommendations img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.recommendations #suggest_for_you {
+    display: grid;
+    grid-template-columns: 170px;
+    font-size: 20px;
+    padding: 10px;
+}
+
+/* no underline under follow*/
+a:link {
+    text-decoration: none;
+}
+
+#box {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+#box2 {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+#box3 {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+#box4 {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+#box5 {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+
+.stories {
+    width: 43%;
+    background-color: rgb(28, 220, 220);
+    margin-top: 75px;
+    padding: 20px;
+    margin-left: 70px;
+    margin-bottom: 20px;
+  }
+
+  .stories img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-left: 10px;
+  }
+
+  #storypic {
+      display: flex;
+      align-items: center;
+      padding: 5px;
+      display: inline-grid;
+  }
+
+  #storypic2 {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    display: inline-grid;
+}
+
+#storypic3 {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    display: inline-grid;
+}
+
+#storypic4 {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    display: inline-grid;
+}
+
+#storypic5 {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    display: inline-grid;
+}
+
+.card {
+    margin-left: 70px;
+    width: 46%;
+    top: 100px;
+    border: solid 1px rgb(190, 186, 186) ; 
+    background-color: rgb(28, 220, 220);
+    margin-bottom: 20px;
+    padding: 0px;
+
+
+}
+
+.card img {
+    width: 100%;
+    height: 300px;
+}
+
+.card #username {
+    font-size: 20px;
+    padding:15px;
+    display: inline-block;
+    font-family: 'Comfortaa', cursive;
+}
+#dots{
+    margin-left: 470px;
+}
+
+#heart{
+    margin-left:10px ;
+    font-size: 20px;
+    padding: 10px;
+}
+#comment{
+    margin-left:5px ;
+    font-size: 20px;
+    padding: 6px;
+}
+#share{
+    margin-left:5px ;
+    font-size: 20px;
+    padding: 6px;
+}
+#bookmark{
+    margin-left:475px ;
+    font-size: 20px;
+}
+
+.comment_entry {
+    margin-left: 10px;
+    padding: 3px;
+    width: 50%;
+}
+.comment_entry2 {
+    margin-left: 10px;
+    padding: 3px;
+    width: 50%;
+}
+.comment_entry3 {
+    margin-left: 10px;
+    padding: 3px;
+    width: 50%;
+}
+.number_likes #number_likes{
+    margin-left: 5px;
+    padding: 3px;
+    font-size: 16px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.days {
+    color:rgb(0,0,0);
+    margin-left: 12px;
+    font-size: 14px;
+}
+
+#username1 {
+    margin-left: 2px;
+}
+
+#username2 {
+    margin-left: 2px;
+}
+
+#username3 {
+    margin-left: 2px;
+}
+
+.add_comment {
+    border: solid 2px rgb(130, 133, 131);
+    width: 97%;
+    padding: 10px;
+    display: inline-flex;
+}
+
+#add_comment {
+    color:rgb(130, 133, 131);
+    margin-left: 10px;
+    width: 20%;
+}
+
+.post {
+    margin-left: auto;
+}
