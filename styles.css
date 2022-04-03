@@ -177,8 +177,8 @@ a:link {
     display: inline-block;
     font-family: 'Comfortaa', cursive;
 }
-#dots{
-    margin-left: 470px;
+.card #dots{
+    margin-left: 400px;
 }
 
 #heart{
@@ -197,7 +197,7 @@ a:link {
     padding: 6px;
 }
 #bookmark{
-    margin-left:475px ;
+    margin-left: 399px;
     font-size: 20px;
 }
 
