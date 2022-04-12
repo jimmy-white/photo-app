@@ -38,17 +38,18 @@
     font-size: 28px;
     font-family: 'Comfortaa', cursive;
 }
-.recommendations{
-    width: 35%;
-    height: 100vh;
+.recommendations {
+    width: auto;
+    height: auto;
     background-color: rgb(28, 220, 220);
-    margin-top: 25px;
-    margin-left: 700px;
-    display: inline-block;
+    margin-left: 40%;
+    display: block;
     color: rgba(129, 125, 125, 0.884);
-    position: fixed;
-    font-family: 'Comfortaa', cursive;
+    font-family: 'Comfortaa' cursive;
     font-size: 10px;
+    position: absolute;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
 .rec {
@@ -65,16 +66,17 @@
     margin-left: 10px;
 }
 
+.recommendations #follow {
+    padding-left: 20px;
+    margin-top: 20px;
+    text-decoration: none;
+}
+
 .recommendations #suggest_for_you {
     display: grid;
     grid-template-columns: 170px;
     font-size: 20px;
     padding: 10px;
-}
-
-/* no underline under follow*/
-a:link {
-    text-decoration: none;
 }
 
 #box {
@@ -104,12 +106,15 @@ a:link {
 }
 
 .stories {
-    width: 43%;
+    display: flex;
+    flex-direction: row;
+    width: 33%;
     background-color: rgb(28, 220, 220);
     margin-top: 75px;
-    padding: 20px;
     margin-left: 70px;
     margin-bottom: 20px;
+    overflow: scroll;
+    text-overflow: ellipsis;
   }
 
   .stories img{
@@ -117,46 +122,47 @@ a:link {
     height: 50px;
     border-radius: 50%;
     margin-left: 10px;
+    border: 3px solid white;
   }
 
   #storypic {
       display: flex;
+      flex-direction: column;
       align-items: center;
       padding: 5px;
-      display: inline-grid;
   }
 
   #storypic2 {
     display: flex;
+    flex-direction: column;
     align-items: center;
     padding: 5px;
-    display: inline-grid;
 }
 
 #storypic3 {
     display: flex;
+    flex-direction: column;
     align-items: center;
     padding: 5px;
-    display: inline-grid;
 }
 
 #storypic4 {
     display: flex;
+    flex-direction: column;
     align-items: center;
     padding: 5px;
-    display: inline-grid;
 }
 
 #storypic5 {
     display: flex;
+    flex-direction: column;
     align-items: center;
     padding: 5px;
-    display: inline-grid;
 }
 
 .card {
     margin-left: 70px;
-    width: 46%;
+    width: 33%;
     top: 100px;
     border: solid 1px rgb(190, 186, 186) ; 
     background-color: rgb(28, 220, 220);
