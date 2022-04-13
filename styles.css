@@ -41,13 +41,12 @@
 .recommendations {
     width: auto;
     height: auto;
-    background-color: rgb(28, 220, 220);
     margin-left: 40%;
     display: block;
     color: rgba(129, 125, 125, 0.884);
     font-family: 'Comfortaa' cursive;
     font-size: 10px;
-    position: absolute;
+    position: fixed;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -163,13 +162,9 @@
 .card {
     margin-left: 70px;
     width: 33%;
-    top: 100px;
-    border: solid 1px rgb(190, 186, 186) ; 
+    height: auto;
     background-color: rgb(28, 220, 220);
     margin-bottom: 20px;
-    padding: 0px;
-
-
 }
 
 .card img {
@@ -179,35 +174,47 @@
 
 .card #username {
     font-size: 20px;
-    padding:15px;
+    margin: 1rem;
     display: inline-block;
     font-family: 'Comfortaa', cursive;
 }
 .card #dots{
-    margin-left: 400px;
+    float: right;
+    margin: 1rem;
+}
+
+.card .post {
+    height: auto;
 }
 
 #heart{
-    margin-left:10px ;
     font-size: 20px;
-    padding: 10px;
+    margin-left: 5px;
+    padding: 6px;
 }
 #comment{
-    margin-left:5px ;
+    margin-left: 5px;
     font-size: 20px;
     padding: 6px;
 }
 #share{
-    margin-left:5px ;
+    margin-left: 5px;
     font-size: 20px;
     padding: 6px;
 }
 #bookmark{
-    margin-left: 399px;
+    display: inline-block;
+    float: right;
     font-size: 20px;
+    padding: 6px;
 }
 
-.comment_entry {
+.caption {
+    margin-left: 5px;
+    padding: 3px;
+    width: 50%;
+}
+.comment_entry1 {
     margin-left: 10px;
     padding: 3px;
     width: 50%;
@@ -217,12 +224,7 @@
     padding: 3px;
     width: 50%;
 }
-.comment_entry3 {
-    margin-left: 10px;
-    padding: 3px;
-    width: 50%;
-}
-.number_likes #number_likes{
+.likes #number_likes{
     margin-left: 5px;
     padding: 3px;
     font-size: 16px;
@@ -230,37 +232,29 @@
     padding-bottom: 6px;
 }
 
+.likes #likes-text {
+    margin-left: -4px;
+}
+
 .days {
-    color:rgb(0,0,0);
-    margin-left: 12px;
+    color:rgba(12, 9, 9, 0.95);
+    margin-left: 5px;
+    margin-bottom: 5px;
+    margin-top: 7px;
     font-size: 14px;
 }
 
-#username1 {
-    margin-left: 2px;
-}
-
-#username2 {
-    margin-left: 2px;
-}
-
-#username3 {
-    margin-left: 2px;
-}
-
 .add_comment {
-    border: solid 2px rgb(130, 133, 131);
-    width: 97%;
+    border: 1px solid black;
     padding: 10px;
-    display: inline-flex;
 }
 
-#add_comment {
+.add_comment #placeholder-text {
     color:rgb(130, 133, 131);
-    margin-left: 10px;
-    width: 20%;
 }
 
-.post {
-    margin-left: auto;
+.add_comment #post-comment {
+    display: inline-block;
+    float: right;
+    text-decoration: none;
 }
