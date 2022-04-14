@@ -1,6 +1,6 @@
 .navigation {
     width: 100%;
-    background-color: rgb(28, 220, 220);
+    background-color: white;
     top: 0;
     left: 0;
     text-align: center;
@@ -26,6 +26,10 @@
     text-align: center;
     margin-right: 20px;
     font-family: Comfortaa;
+}
+
+body {
+    background-color: rgb(228, 220, 220);
 }
 
 .recommendations #username{
