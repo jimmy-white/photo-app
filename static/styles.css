@@ -261,21 +261,27 @@ body {
 
 .caption {
     margin-left: 5px;
+    margin-right: 5px;
     padding: 3px;
-    width: 50%;
+    width: 100%;
     text-decoration: none;
 }
 
-.comment_entry1 {
+.comment_entry #view-all {
     margin-left: 10px;
     padding: 3px;
     width: 50%;
 }
-.comment_entry2 {
-    margin-left: 10px;
+
+.comment_entry .comments {
+    margin-left: 5px;
+    margin-right: 5px;
     padding: 3px;
-    width: 50%;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    width: 100%;
 }
+
 .likes #number_likes{
     margin-left: 5px;
     padding: 3px;

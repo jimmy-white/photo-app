@@ -11,7 +11,7 @@
     
     {% for suggestion in suggestions %}
     <div id = "box"> 
-        <img src="{{suggestion.profile_url }}" alt="profile" class="profile" style = "width:50px"> 
+        <img src="{{ suggestion.profile_url }}" alt="profile" class="profile" style = "width:50px"> 
         <div class = "rec">
             <span id= "username">{{suggestion.get( 'username')}}</span>
             <span span id="sug">suggested for you</span>
