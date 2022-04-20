@@ -1,0 +1,48 @@
+{% for post in posts %}
+<div class="card">
+    <div class="head">
+        <span id = "username"> {{post.user.username}}</span>
+        <i class="fas fa-ellipsis-h" id = "dots"></i>
+    </div>
+    <img src="{{post.user.image_url}}">
+    <div class="post">
+        <div class="far fa-heart" id = "heart"></div>
+        <div class="far fa-comment" id = "comment"></div>
+        <div class="far fa-paper-plane" id = "share"></div>
+        <div class="far fa-bookmark" id = "bookmark"></div>
+    </div>
+    <div class = "likes">
+        <span id = "number_likes"><strong>{{post.likes}}</strong></span>
+        <span id = "likes-text"><strong>likes</strong></span>
+    </div>
+    <div class = "comment_entry">
+        <div class = "caption">
+            <span id = "caption_name"><strong>{{post.user.username}} </strong></span>
+            <span id = "caption_text"> {{post.title}} </span>
+            <a href="" target = "_blank"> more </a>
+        </div>
+        {% if post.comments|length > 0 %}
+            {% if post.comments | length > 1 %} 
+                <a href = "" target = "_blank"> View all {{post.comments | length}} comments </a>
+        <div class = "comments">
+            <span id = "commenter1"><strong>{{post.comments[0].user.username }} </strong></span>
+            <span id = "comment_text1">{{post.comments[0].text}}</span>
+        </div>
+        {% endif %}
+
+        {% else %}
+            <br></br>
+            <br></br>
+            <br></br>
+        {% endif %}
+    </div>
+   
+    
+    <div class = "days">{{post.display_time}}</div>
+    <div class = "add_comment">
+        <i class = "far fa-smile"></i>
+        <span id = "placeholder-text"> Add a comment... </span>
+        <a href="" target = "_blank" id="post-comment"> post </a>
+    </div>
+</div>
+{% endfor %}
