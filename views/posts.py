@@ -1,7 +1,7 @@
 from flask import Response, request
 from flask_restful import Resource
 from models import Post, db, Following
-from views import get_authorized_user_ids
+from views import get_authorized_user_ids, can_view_post
 
 import json
 

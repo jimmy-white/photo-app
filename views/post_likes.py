@@ -2,7 +2,7 @@ from flask import Response, request
 from flask_restful import Resource
 from models import LikePost, db, Post
 import json
-from . import can_view_post, get_authorized_user_ids
+from views import can_view_post, get_authorized_user_ids
 
 class PostLikesListEndpoint(Resource):
 
@@ -10,13 +10,11 @@ class PostLikesListEndpoint(Resource):
         self.current_user = current_user
     
     def post(self):
+        req = request.get_json()
+        post_id = req.get('post_id')
         # create a new "following" record based on the data posted in the body
-        try: 
-            post_id = int(post_id)
-
-        except: 
-            return Response(json.dumps({'message': 'DELETE: not an integer'}), mimetype="application/json", status=400)
-
+        if not str(post_id).isdigit():
+            return Response(json.dumps({'message': 'DELETE: bad id'}), mimetype="application/json", status=400)
         #get likes for post
         likes = Post.query.get(post_id)
         if not likes: 
@@ -38,23 +36,23 @@ class PostLikesDetailEndpoint(Resource):
         self.current_user = current_user
     
     def delete(self, id):
+        # a user can only delete their own post:
         if not str(id).isdigit():
-            return Response(json.dumps({'message': 'invalid ID'}), mimetype="application/json", status=400)
-            # a user can only delete their own post:
-        likes = LikePost.query.get(id)
-        if not likes:
-            return Response(json.dumps({'message': 'like does not exist'}), mimetype="application/json", status=404)
+            return Response(json.dumps({'message': 'DELETE: bad id'}), mimetype="application/json", status=400)
+        post_likes = LikePost.query.get(id)
         
-        if not can_view_post(likes.user_id, self.current_user.id):
-            return Response(json.dumps({'message': 'unauthorized'}), mimetype="application/json", status=404)
-    
+        if not post_likes: 
+            return Response(json.dumps({'message': 'DELETE: doesnt exist'}), mimetype="application/json", status=404)  
+
+        if not can_view_post(post_likes.user_id,self.current_user):
+            return Response(json.dumps({'message': 'DELETE: not authorized 404'}), mimetype="application/json", status=404)
         # delete "like_post" where "id"=id
         LikePost.query.filter_by(id=id).delete()
         db.session.commit()
         s_data = {
-            'message': 'Post {0} deleted successfully'.format(id)
+            'message': 'Post {0} successfully delete.'.format(id)
         }
-        return Response(json.dumps(s_data), mimetype="application/json", status=200)
+        return Response(json.dumps(s_data), mimetype="application/json", status= 200)
 
 
 
