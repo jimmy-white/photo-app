@@ -7,7 +7,7 @@ from flask import render_template
 import os
 from sqlalchemy import and_
 from models import db, Post, User, Following, ApiNavigator, Story
-from views import initialize_routes, get_authorized_user_ids
+from views import bookmarks, comments, followers, posts, suggestions, stories, profile, post_likes, following
 
 
 app = Flask(__name__)
@@ -26,7 +26,15 @@ with app.app_context():
 
 
 # Initialize routes for all of your API endpoints:
-initialize_routes(api)
+bookmarks.initialize_routes(api)
+comments.initialize_routes(api)
+followers.initialize_routes(api)
+posts.initialize_routes(api)
+suggestions.initialize_routes(api)
+stories.initialize_routes(api)
+profile.initialize_routes(api)
+post_likes.initialize_routes(api)
+following.initialize_routes(api)
 
 # Server-side template for the homepage:
 @app.route('/')
