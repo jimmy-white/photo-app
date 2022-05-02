@@ -30,25 +30,3 @@ def can_view_post(post_id, user):
     if not post:
         return False
     return True
-
-def initialize_routes(api):
-    from .bookmarks import initialize_routes as init_bookmark_routes
-    from .comments import initialize_routes as init_comment_routes
-    from .followers import initialize_routes as init_follower_routes
-    from .following import initialize_routes as init_following_routes
-    from .posts import initialize_routes as init_post_routes
-    from .post_likes import initialize_routes as init_post_like_routes
-    from .profile import initialize_routes as init_profile_routes
-    from .stories import initialize_routes as init_story_routes
-    from .suggestions import initialize_routes as init_suggestion_routes
-    
-    init_bookmark_routes(api)
-    init_comment_routes(api)
-    init_follower_routes(api)
-    init_following_routes(api)
-    init_post_routes(api)
-    init_post_like_routes(api)
-    init_profile_routes(api)
-    init_story_routes(api)
-    init_suggestion_routes(api)
-        
