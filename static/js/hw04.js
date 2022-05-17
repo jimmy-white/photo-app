@@ -109,7 +109,7 @@ const detail = ev => {
             document.getElementById('exit').focus()
         })
 };
-const updatePost2HTML = post =>{
+const updatePost2HTML = post => {
     return `
     <div class = "header">
         <h2>${post.user.username}</h2>
@@ -183,10 +183,7 @@ const post2HTML = post =>{
 
                 <section class="imain">
 
-                    <button onclick="likeUnlike(event)" data-post-id= "${post.id}" ${post.current_user_like_id ? `data-like-id = "${post.current_user_like_id}"`: ''}>
-                        <a class="fa${post.current_user_like_id ? 's': 'r'} fa-heart"></a>
-                    </button>
-
+                    <button ${likeButton(post)}</button>
                     <a class="far fa-comment"></a>
                     <a class="far fa-paper-plane"></a>
 
@@ -430,41 +427,68 @@ const  unbk = (postId, bkmarkId, elem) => {
         updatePost(postId);
     });
 }
-// Like and unlike Post
 
-const updatePost = postId =>{
-    const posturl = `/api/posts/${postId}`
-    fetch(posturl)
+const updatePost = elem => {
+    const postId = Number(elem.dataset.postId)
+    fetch(`/api/posts/${postId}`)
     .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        const html = updatePost2HTML(data)
-        document.querySelector(
-            "[data-post-id="+ CSS.escape(postId)+"]").innerHTML = html
+    .then(newPost => {
+        console.log(newPost);
+        const html = post2HTML(newPost)
+        const newElem = stringToHTML(html);
+        const postElem = document.querySelector(`#post_${postId}`)
+        postElem.innerHTML = newElem.innerHTML
     });
 }
-const likeUnlike = ev =>{
-    console.log(ev)
-    const elem = ev.currentTarget
-    console.log(elem)
-    const postId = elem.getAttribute("data-post-id")
 
-    if (ev.currentTarget.getAttribute("data-like-id")!==null){
-        const likeId = elem.getAttribute("data-like-id")
-        console.log('unliked')
-        unLikePost(postId, likeId, elem)
+const stringToHTML = htmlString => {
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(htmlString, 'text/html')
+    return doc.body.firstChild
+}
 
+const likeButton = post => {
+    if (post.current_user_like_id) {
+        return `
+            <button 
+                data-post-id= "${post.id}"
+                data-like-id="${post.current_user_like_id}"
+                aria-label="Like/Unlike"
+                aria-checked="true"
+                onclick="handleLikeUnlike(event)">
+                <i class="fas fa-heart"></i>
+            </button>
+        `
     }
-    else{
-        console.log('liked')
-        likePost(postId, elem)
+    else {
+        return `
+            <button 
+                data-post-id= "${post.id}"
+                aria-label="Like/Unlike"
+                aria-checked="false"
+                onclick="handleLikeUnlike(event)">
+                <i class="far fa-heart"></i>
+            </button>
+        `
     }
 }
-const likePost = (postId, elem) => {
-    const postData = {};
-    const fetchurl = `http://localhost:5000/api/posts/${postId}/likes/`
 
-    fetch(fetchurl, {
+const handleLikeUnlike = ev => {
+    const elem = ev.currentTarget
+    if (elem.getAttribute('aria-checked') === 'true') {
+        console.log('unlike')
+        unlikePost(elem)
+    }
+    else {
+        console.log('like')
+        likePost(elem)
+    }
+}
+
+const likePost = elem => {
+    const postId = Number(elem.dataset.postId)
+    const postData = { "post_id": postId };
+    fetch(`api/posts/${postId}/likes/`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -474,28 +498,28 @@ const likePost = (postId, elem) => {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            elem.setAttribute('data-like-id', data.id);
-            elem.setAttribute('aria-checked', 'true');
-            elem.setAttribute('aria-label', 'liked');
-            updatePost(postId);
+            //elem.setAttribute('data-like-id', data.id);
+            //elem.setAttribute('aria-checked', 'true');
+            //elem.setAttribute('aria-label', 'liked');
+            updatePost(elem);
         });
 }
-const unLikePost = (postId, likeId, elem) => {
-    const deleteLikeUrl = `http://localhost:5000/api/posts/${postId}/likes/${likeId}`
+const unlikePost = elem => {
+    const postId = Number(elem.dataset.postId)
+    const deleteLikeUrl = `/api/posts/${postId}/likes/${elem.dataset.likeId}`
     fetch(deleteLikeUrl, {
         method: "DELETE",
         headers: {
-            
             'Content-Type': 'application/json',
         }
     })
     .then(response => response.json())
     .then(data => {
         console.log(data);
-        elem.removeAttribute('data-like-id');
-        elem.setAttribute('aria-checked', 'false');
-        elem.setAttribute('aria-label', 'unliked');
-        updatePost(postId);
+        //elem.removeAttribute('data-like-id');
+        //elem.setAttribute('aria-checked', 'false');
+        //elem.setAttribute('aria-label', 'unliked');
+        updatePost(elem);
     });
 }
 
