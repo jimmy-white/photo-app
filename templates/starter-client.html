@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Photo App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/starter-client.css">
+
+    <!-- client-side scripts -->
+    <script lang="text/javascript" src="/static/js/hw04.js" defer></script>
+</head>
+<body>
+    {% include 'includes/navbar.html'  %}
+
+    <aside>
+        <header>
+        </header>
+        <div class="suggestions">
+            <p class="suggestion-text">Suggestions for you</p>
+            <div id="suggestions">
+            </div>
+        </div>
+    </aside>
+
+    <main class="content">
+        <header class="stories">
+            <!-- Stories rendered client-side (done for you)-->
+        </header>
+
+        <!-- Posts -->
+        <div id="posts">
+        </div>
+
+    </main>
+    <div id="modal-container">    
+    </div>
+
+</body>
+</html>

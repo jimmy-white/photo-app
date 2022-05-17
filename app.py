@@ -5,12 +5,15 @@ from flask_restful import Api
 from flask_cors import CORS
 from flask import render_template
 import os
-from sqlalchemy import and_
-from models import db, Post, User, Following, ApiNavigator, Story
-from views import bookmarks, comments, followers, posts, suggestions, stories, profile, post_likes, following
+from models import db, User, ApiNavigator
+from views import bookmarks, comments, followers, following, \
+    posts, profile, stories, suggestions, post_likes
+
 
 
 app = Flask(__name__)
+
+# CORS: allows anyone from anywhere to use your API:
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URL')
@@ -29,27 +32,27 @@ with app.app_context():
 bookmarks.initialize_routes(api)
 comments.initialize_routes(api)
 followers.initialize_routes(api)
-posts.initialize_routes(api)
-suggestions.initialize_routes(api)
-stories.initialize_routes(api)
-profile.initialize_routes(api)
-post_likes.initialize_routes(api)
 following.initialize_routes(api)
+posts.initialize_routes(api)
+post_likes.initialize_routes(api)
+profile.initialize_routes(api)
+stories.initialize_routes(api)
+suggestions.initialize_routes(api)
+
 
 # Server-side template for the homepage:
 @app.route('/')
 def home():
-    return '''
-       <p>View <a href="/api">REST API Tester</a>.</p>
-       <p>Feel free to replace this code from HW2</p>
-    '''
-
+    return render_template(
+        'starter-client.html', 
+        user=app.current_user
+    )
 
 @app.route('/api')
 def api_docs():
     navigator = ApiNavigator(app.current_user)
     return render_template(
-        'api/api_docs.html', 
+        'api/api-docs.html', 
         user=app.current_user,
         endpoints=navigator.get_endpoints(),
         url_root=request.url_root[0:-1] # trim trailing slash

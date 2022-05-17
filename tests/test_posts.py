@@ -121,7 +121,7 @@ class TestPostDetailEndpoint(unittest.TestCase):
         self.current_user = utils.get_user_12()
         pass
 
-    def test_post_patch_correct_data_200(self):
+    def test_post_patch(self):
         post_to_update = utils.get_post_by_user(self.current_user.get('id'))
         body = {
             'image_url': 'https://picsum.photos/600/430?id=33',
@@ -171,11 +171,11 @@ class TestPostDetailEndpoint(unittest.TestCase):
 
         utils.restore_post(post_to_update)
 
-    def test_post_patch_invalid_id_404(self):
+    def test_post_patch_invalid_id_400(self):
         url = '{0}/api/posts/fdsfsdfsdfsdfs'.format(root_url)
         response = requests.patch(url, json={})
         # print(response.json())
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 400)
 
     def test_post_patch_id_does_not_exist_404(self):
         url = '{0}/api/posts/99999'.format(root_url)
@@ -201,11 +201,11 @@ class TestPostDetailEndpoint(unittest.TestCase):
         # restore the post in the database:
         utils.restore_post_by_id(post_to_delete)
 
-    def test_post_delete_invalid_id_404(self):
+    def test_post_delete_invalid_id_400(self):
         url = '{0}/api/posts/sdfsdfdsf'.format(root_url)
         
         response = requests.delete(url)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 400)
 
     def test_post_delete_id_does_not_exist_404(self):
         post_with_access = utils.get_post_by_user(self.current_user.get('id'))
@@ -234,12 +234,12 @@ class TestPostDetailEndpoint(unittest.TestCase):
         self.assertTrue('comments' in post and type(post['comments']) == list)
         self.assertEqual(response.status_code, 200)
 
-    def test_post_get_invalid_id_404(self):
+    def test_post_get_invalid_id_400(self):
         post_with_access = utils.get_post_by_user(self.current_user.get('id'))
         url = '{0}/api/posts/sdfsdfdsf'.format(root_url, post_with_access.get('id'))
         
         response = requests.get(url)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 400)
 
     def test_post_get_id_does_not_exist_404(self):
         post_with_access = utils.get_post_by_user(self.current_user.get('id'))
@@ -274,20 +274,20 @@ if __name__ == '__main__':
         TestPostListEndpoint('test_post_post_image_only'),                  # post (create)
         TestPostListEndpoint('test_post_post_bad_data_400_error'),          # post (create)
 
-        # # Detail Endpoint Tests
-        TestPostDetailEndpoint('test_post_patch_correct_data_200'),                          # patch (update)
+        # Detail Endpoint Tests
+        TestPostDetailEndpoint('test_post_patch'),                          # patch (update)
         TestPostDetailEndpoint('test_post_patch_blanks_not_overwritten'),   # patch (update)
-        TestPostDetailEndpoint('test_post_patch_invalid_id_404'),           # patch (update)
+        TestPostDetailEndpoint('test_post_patch_invalid_id_400'),           # patch (update)
         TestPostDetailEndpoint('test_post_patch_id_does_not_exist_404'),    # patch (update)
         TestPostDetailEndpoint('test_post_patch_unauthorized_id_404'),      # patch (update)
         
         TestPostDetailEndpoint('test_post_delete'),                         # delete
-        TestPostDetailEndpoint('test_post_delete_invalid_id_404'),          # delete
+        TestPostDetailEndpoint('test_post_delete_invalid_id_400'),          # delete
         TestPostDetailEndpoint('test_post_delete_id_does_not_exist_404'),   # delete
         TestPostDetailEndpoint('test_post_delete_unauthorized_id_404'),     # delete
 
         TestPostDetailEndpoint('test_post_get'),                            # get (individual)
-        TestPostDetailEndpoint('test_post_get_invalid_id_404'),             # get (individual) 
+        TestPostDetailEndpoint('test_post_get_invalid_id_400'),             # get (individual) 
         TestPostDetailEndpoint('test_post_get_id_does_not_exist_404'),      # get (individual)
         TestPostDetailEndpoint('test_post_get_unauthorized_id_404')         # get (individual)
     ])

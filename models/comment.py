@@ -16,10 +16,10 @@ class Comment(db.Model):
     # read-only:
     user = db.relationship('User', backref="comments", lazy=False)
 
-    def __init__(self, text:str, user_id:int, post_id:int):
+    def __init__(self, text, user_id, post_id):
         self.text = text
-        self.user_id = int(user_id)
-        self.post_id = int(post_id)
+        self.user_id = user_id
+        self.post_id = post_id
     
     def __repr__(self):
         return '<Comment %r>' % self.id
