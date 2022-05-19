@@ -5,15 +5,13 @@ from flask_restful import Api
 from flask_cors import CORS
 from flask import render_template
 import os
-from models import db, User, ApiNavigator
+from sqlalchemy import and_
+from models import db, Post, User, Following, ApiNavigator, Story
 from views import bookmarks, comments, followers, following, \
     posts, profile, stories, suggestions, post_likes
 
 
-
 app = Flask(__name__)
-
-# CORS: allows anyone from anywhere to use your API:
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URL')
@@ -39,7 +37,6 @@ profile.initialize_routes(api)
 stories.initialize_routes(api)
 suggestions.initialize_routes(api)
 
-
 # Server-side template for the homepage:
 @app.route('/')
 def home():
@@ -48,11 +45,13 @@ def home():
         user=app.current_user
     )
 
+
 @app.route('/api')
+@app.route('/api/')
 def api_docs():
     navigator = ApiNavigator(app.current_user)
     return render_template(
-        'api/api-docs.html', 
+        'api/api_docs.html', 
         user=app.current_user,
         endpoints=navigator.get_endpoints(),
         url_root=request.url_root[0:-1] # trim trailing slash

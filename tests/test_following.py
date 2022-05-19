@@ -122,10 +122,10 @@ class TestFollowingDetailEndpoint(unittest.TestCase):
         utils.restore_following(following_to_delete)
 
 
-    def test_following_delete_invalid_id_format_400(self):
+    def test_following_delete_invalid_id_format_404(self):
         url = '{0}/api/following/sdfsdfdsf'.format(root_url)
         response = requests.delete(url)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
         
     
     def test_following_delete_invalid_id_404(self):
@@ -161,7 +161,7 @@ if __name__ == '__main__':
 
         # DELETE
         TestFollowingDetailEndpoint('test_following_delete_valid_200'),
-        TestFollowingDetailEndpoint('test_following_delete_invalid_id_format_400'),
+        TestFollowingDetailEndpoint('test_following_delete_invalid_id_format_404'),
         TestFollowingDetailEndpoint('test_following_delete_invalid_id_404'),
         TestFollowingDetailEndpoint('test_following_delete_unauthorized_id_404') 
     ])

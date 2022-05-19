@@ -383,19 +383,29 @@ class ApiNavigator(object):
                 {
                     'id': 'likes-post',
                     'name': 'Add a Like',
-                    'endpoint': '/api/posts/<post_id>/likes/',
-                    'endpoint_example': '/api/posts/{post_id}/likes/'.format(post_id=self.unliked_post_id),
+                    'endpoint': '/api/posts/likes/',
+                    'endpoint_example': '/api/posts/likes/'.format(post_id=self.unliked_post_id),
                     'method': 'POST',
                     'request_description': 'Ensure that the post id of the Post that you want to like is included in the endpoint url (see example below).',
                     'response_description': 'The Like object.',
                     'response_type': 'List',
-                    'sample_body': json.dumps({}, indent=4)
+                    'parameters': [
+                        {
+                            'name': 'post_id',
+                            'data_type': 'int',
+                            'optional_or_required': 'required',
+                            'description': 'The id of the Post that you would like to like.'
+                        }
+                    ],
+                    'sample_body': json.dumps({
+                        'post_id': self.unliked_post_id
+                    }, indent=4)
                 },
                 {
                     'id': 'likes-delete',
                     'name': 'Remove a Like',
-                    'endpoint': '/api/posts/<post_id>/likes/<id>',
-                    'endpoint_example': '/api/posts/{post_id}/likes/{id}'.format(post_id=self.like.post_id, id=self.like.id),
+                    'endpoint': '/api/posts/likes/<id>',
+                    'endpoint_example': '/api/posts/likes/{id}'.format(id=self.like.id),
                     'method': 'DELETE',
                     'request_description': 'Ask to remove a like.',
                     'response_description': 'A message indicating whether or not the Like was successfully removed/',

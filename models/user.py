@@ -26,8 +26,8 @@ class User(db.Model):
     is_verified = db.Column(db.Boolean(), nullable=False, default=False)
     is_disabled = db.Column(db.Boolean(), nullable=False, default=False)
     
-    def __init__(self, first_name, last_name, username, email, 
-            image_url=None, thumb_url=None):
+    def __init__(self, first_name:str, last_name:str, username:str, email:str, 
+            image_url:str=None, thumb_url:str=None):
 
         self.first_name = first_name
         self.last_name = last_name

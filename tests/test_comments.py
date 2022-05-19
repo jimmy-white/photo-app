@@ -87,10 +87,10 @@ class TestCommentDetailEndpoint(unittest.TestCase):
         # restore the post in the database:
         utils.restore_comment_by_id(comment_to_delete)
 
-    def test_comment_delete_invalid_id_format_400(self):
+    def test_comment_delete_invalid_id_format_404(self):
         url = '{0}/api/comments/sdfsdfdsf'.format(root_url)
         response = requests.delete(url)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
 
     def test_comment_delete_invalid_id_404(self):
         url = '{0}/api/comments/99999'.format(root_url)
@@ -122,7 +122,7 @@ if __name__ == '__main__':
 
         # DELETE Tests:
         TestCommentDetailEndpoint('test_comment_delete_valid_200'),
-        TestCommentDetailEndpoint('test_comment_delete_invalid_id_format_400'),
+        TestCommentDetailEndpoint('test_comment_delete_invalid_id_format_404'),
         TestCommentDetailEndpoint('test_comment_delete_invalid_id_404'),
         TestCommentDetailEndpoint('test_comment_delete_unauthorized_id_404'),
         

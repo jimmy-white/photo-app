@@ -26,7 +26,7 @@ class LikeComment(db.Model):
             'comment_id': self.comment_id
         }
 
-    def __init__(self, user_id, comment_id):
-        self.user_id = user_id
-        self.comment_id = comment_id
+    def __init__(self, user_id:int, comment_id:int):
+        self.user_id = int(user_id)
+        self.comment_id = int(comment_id)
  

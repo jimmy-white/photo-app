@@ -19,9 +19,9 @@ class Following(db.Model):
 
     db.UniqueConstraint('user_id', 'following_id', name='following_unique')
 
-    def __init__(self, user_id, following_id):
-        self.user_id = user_id
-        self.following_id = following_id
+    def __init__(self, user_id:int, following_id:int):
+        self.user_id = int(user_id)
+        self.following_id = int(following_id)
 
     def to_dict_following(self): 
         return {

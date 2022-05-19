@@ -7,7 +7,8 @@
 body {
     margin: 0px;
     font-family: Arial, Helvetica, sans-serif;
-    background-color:  #f2f2f2;
+    /* background-color: #fafafa; */
+    background-color: #f2f2f2;
 }
 
 aside, main, nav {
@@ -17,47 +18,35 @@ aside, main, nav {
 h1, h2, h3, h4 {
     font-family: 'Comfortaa', cursive;
 }
-
-
-
 a, a:visited, a:hover, a:link {
-
-    color: rgb(53, 117, 170);
+    /* font-weight: 600; */
+    /* text-decoration: none; */
+    color: rgb(44, 105, 155);
 }
-
-
-
 a:hover {
-    color:rgb(80, 79, 79);
+    color: #777;
 }
-
-
-
-
 button.link {
     color: rgb(44, 105, 155);
     background-color: transparent;
     border-width: 0px;
 }
-
 button.link:hover {
-    color: rgb(80, 79, 79);
+    color: #777;
 }
 
 button.link.following {
-    padding: 5px 10px ;
+    padding: 5px 10px !important;
 }
 button.link.following.active {
     background-color: white;
-    padding: 5px 10px;
+    padding: 5px 10px !important;
     border: solid 1px #CCC;
     border-radius: 4px;
 }
 header {
     margin-top: 20px;
 }
-
-
 
 nav {
     position: sticky;
@@ -70,7 +59,7 @@ nav {
     padding: 0px 3vw;
 }
 
-nav, nav ul, .card .header, .card .buttons, .card .addcomment {
+nav, nav ul, .card .header, .card .buttons, .card .add-comment {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -78,11 +67,6 @@ nav, nav ul, .card .header, .card .buttons, .card .addcomment {
 nav ul {
     list-style-type: none;
 }
-
-
-
-
-
 li {
     margin-left: 30px;
 }
@@ -92,13 +76,13 @@ aside {
     right: 0px;
     top: 70px;
     width: calc(40vw - 6px);
+    /* background-color: #fafafa; */
     background-color: #f2f2f2;
     height: calc(100vh - 100px);
     padding-left: 30px;
 }
-
-
 main {
+    /* margin-top: 70px; */
     width: 60vw;
     display: flex;
     flex-direction: column;
@@ -108,8 +92,6 @@ main {
 #posts {
     width: 50vw;
 }
-
-
 
 .stories {
     padding: 10px;
@@ -147,56 +129,71 @@ main {
     text-align: center;
 }
 
+.card {
+    border: solid 1px #dbdbdb;
+    margin-bottom: 30px;
+    background-color: #fff;
+    width: 50vw;
+    min-width: 540px;
+}
 
-/* comments */
-.card .addcomment {
+.card img {
+    width: 100%;
+    height: auto;
+}
+.card .header, .card .info {
+    padding: 10px;
+    color: #444;
+}
+
+.card .buttons {
+    font-size: 1.3em;
+    padding: 5px;
+}
+.card .buttons i {
+    margin-right: 4px;
+}
+
+.card  button.link {
+    font-size: 1em;
+}
+
+.card .caption, .card .comments, .likes {
+    padding: 0px 5px;
+}
+.card .caption p, .card .comments p {
+    margin: 8px 0px 3px 0px;
+    font-size: 0.9em;
+}
+.card .timestamp {
+    color: #999;
+    text-transform: uppercase;
+    font-size: 0.70em !important;
+    margin-bottom: 5px;
+}
+.card .add-comment {
     border-top: solid 1px #dbdbdb;
     padding: 10px 15px;
 }
 
-.card .addcomment .input-holder {
+.card .add-comment .input-holder {
     width: 90%;
 }
 
-.card .addcomment input,  .card .addcomment input:focus-visible , .card .addcomment input:focus{
+.card .add-comment input, .card .add-comment input:focus, .card .add-comment input:focus-visible {
     border-width: 0px;
     outline: none;
     font-size: 0.95em;
     width: 85%;
     padding: 10px 0px;
 }
-.card .addcomment a {
+.card .add-comment i {
     font-size: 1.3em;
     margin-right: 10px;
 }
 
-/* suggestions */
-
-.suggestions section p, .suggestions section a {
-    margin: 0px;
-}
-.suggestions section p {
-    color: #333;
-    font-weight: 600;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.suggestions section a {
-    font-size: 0.8em;
-}
-.suggestions section p:nth-child(2) {
-    color: rgb(80, 79, 79);
-    font-size: 0.8em;
-    font-weight: 400;
-}
-.suggestions section .pic {
-    min-width: 30px;
-    min-height: 30px;
-    border: solid 1px #dbd6d6;
-    border-radius: 15px;
-}
 .suggestion-text {
-    color: rgb(80, 79, 79);
+    color: #666;
     font-weight: 600;
     letter-spacing: 0px;
 }
@@ -211,7 +208,29 @@ main {
     padding: 8px;
     width: 200px;
 }
-
+.suggestions section p, .suggestions section a {
+    margin: 0px;
+}
+.suggestions section p {
+    color: #333;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.suggestions section a {
+    font-size: 0.8em;
+}
+.suggestions section p:nth-child(2) {
+    color: #666;
+    font-size: 0.8em;
+    font-weight: 400;
+}
+.suggestions section .pic {
+    min-width: 30px;
+    min-height: 30px;
+    border: solid 1px #dbdbdb;
+    border-radius: 15px;
+}
 aside header {
     display: flex;
     align-items: center;
@@ -221,7 +240,7 @@ aside header {
 aside header .pic {
     min-width: 60px;
     min-height: 60px;
-    border-radius: 50%;
+    border-radius: 33px;
     border-width: 0px;
     margin-right: 20px;
 }
@@ -250,117 +269,14 @@ aside header .pic {
     }
 }
 
-
-aside header img{
-    width: 100px;
-    height: 100px;
+aside header img {
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
 }
 
 #posts .buttons .imain .fas{
     color: rgb(185, 29, 29);
-}
-
-.bg{
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    background-color: rgba(50, 50, 50, 0.8);
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.modal {
-    background-color: white;
-    width: 80vw;
-    height: 80vh;
-    border-radius: 5px;
-}
-.exit button{
-    position: fixed;
-    right: 20px;
-    top: 20px;
-    border: none;
-    padding: 0;
-    background: none;
-    font-size: 2em;
-    color: white;
-}
-.modal img {
-    position: fixed;
-    width: 55%;
-    height: inherit;
-    object-fit: cover;
-
-}
-.side img {
-    position: inherit;
-    padding: 0px;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    margin-right: 10px;
-    
-}
-.side {
-    width: 35%;
-    position: absolute;
-    right:0px;
-    margin: 0;
-    height: inherit;
-}
-.side header {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding-bottom: 10px;
-    padding-left: 20px;
-    border-bottom: #333 solid 1px;
-    
-}
-.side .top {
-    position: fixed;
-    background-color: white;
-    width: 25%
-}
-
-.side .comment-text {
-    width: 15vw;
-    margin: 5px;
-}
-.comment{
-    display: flex;
-    align-items: flex-start;
-} 
-.all-comments{
-    height: 65vh;
-    display: flex;
-    flex-direction: column;
-    margin-top: 110px;
-    padding: 20px;
-    overflow-y: scroll;
-}
-
-.modal button{
-    border: none;
-    padding: 0;
-    background: none;
-    font-size: 1em;
-    
-}
-
-.close button:focus {
-    padding: 3px;
-    outline: 1px solid rgb(44, 105, 155);
-}
-
-.buttons button{
-    border: none;
-    padding: 0;
-    background: none;
-    font-size: 1em;
 }
 
 .card {
@@ -391,8 +307,7 @@ aside header img{
     color: rgb(80, 79, 79);
     text-transform: uppercase;
     font-size: 0.70em;
-    margin-bottom: 5px;
-    
+    margin-bottom: 6px;
 
 }
 .card .buttons {
@@ -405,5 +320,113 @@ aside header img{
 }
 
 .card  button.link {
+    font-size: 1em;
+}
+
+.background{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: rgba(50, 50, 50, 0.8);
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal {
+    background-color: white;
+    width: 80vw;
+    height: 80vh;
+    border-radius: 5px;
+}
+
+.remove button{
+    position: fixed;
+    right: 15px;
+    top: 20px;
+    border: none;
+    padding: 0;
+    background: none;
+    font-size: 2em;
+    color: blue;
+}
+
+.modal img {
+    position: fixed;
+    width: 55%;
+    height: inherit;
+    object-fit: cover;
+
+}
+
+.side img {
+    position: inherit;
+    padding: 0px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 10px;
+    
+}
+
+.side {
+    width: 35%;
+    position: absolute;
+    right:0px;
+    margin: 0;
+    height: inherit;
+}
+
+.side header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    border-bottom: #333 solid 1px;
+    
+}
+
+.side .top {
+    position: fixed;
+    background-color: white;
+    width: 25%
+}
+
+.side .comment-text {
+    width: 15vw;
+    margin: 5px;
+}
+
+.comment{
+    display: flex;
+    align-items: flex-start;
+}
+
+.all-comments{
+    height: 65vh;
+    display: flex;
+    flex-direction: column;
+    margin-top: 110px;
+    padding: 20px;
+    overflow-y: scroll;
+}
+
+.modal button{
+    border: none;
+    padding: 0;
+    background: none;
+    font-size: 1em;
+}
+.close button:focus {
+    padding: 3px;
+    outline: 1px solid rgb(44, 105, 155);
+}
+
+.buttons button{
+    border: none;
+    padding: 0;
+    background: none;
     font-size: 1em;
 }

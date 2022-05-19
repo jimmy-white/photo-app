@@ -10,30 +10,35 @@
     <script lang="text/javascript" src="/static/js/hw04.js" defer></script>
 </head>
 <body>
+    <!-- Nav Bar still rendered via server-side template -->
     {% include 'includes/navbar.html'  %}
 
     <aside>
         <header>
+            <!-- user profile rendered client-side -->
         </header>
         <div class="suggestions">
             <p class="suggestion-text">Suggestions for you</p>
-            <div id="suggestions">
+            <div>
+                <!-- Suggestions rendered client-side -->
+                <div id="suggestions">
             </div>
         </div>
     </aside>
 
     <main class="content">
+        
         <header class="stories">
             <!-- Stories rendered client-side (done for you)-->
         </header>
 
         <!-- Posts -->
         <div id="posts">
+            <!-- Posts rendered client-side -->
+            <p>TBD</p>
         </div>
 
     </main>
-    <div id="modal-container">    
-    </div>
-
+    <div id = "modal-container"></div>
 </body>
 </html>

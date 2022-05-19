@@ -1,7 +1,7 @@
 from flask import Response, request
 from flask_restful import Resource
 from models import User
-from . import get_authorized_user_ids
+from views import get_authorized_user_ids
 import json
 
 class SuggestionsListEndpoint(Resource):
@@ -10,13 +10,25 @@ class SuggestionsListEndpoint(Resource):
         self.current_user = current_user
     
     def get(self):
-        ids_for_friends = get_authorized_user_ids(self.current_user)
-        suggestions = User.query.filter(~User.id.in_(ids_for_friends)).all()
+        '''
+        Get all suggestions
+        '''
+        suggestions_ids = get_authorized_user_ids(self.current_user)
+        suggestions = User.query.filter(~User.id.in_(suggestions_ids)).all()
 
-        suggestions_dictionaries = [ 
-            suggest.to_dict() for suggest in suggestions
-        ]
-        return Response(json.dumps(suggestions_dictionaries[0:7]), mimetype="application/json", status=200)
+        suggestions_dict = [suggestion.to_dict() for suggestion in suggestions]
+        return Response(json.dumps(suggestions_dict[0:7]), mimetype="application/json", status=200)
+        # get suggestions created by one of these users:
+        # print(get_authorized_user_ids(self.current_user))
+        #return Response(json.dumps([]), mimetype="application/json", status=200)
+
+        # get stories created by one of these users:
+        # print(get_authorized_user_ids(self.current_user))
+        #return Response(json.dumps([]), mimetype="application/json", status=200)
+
+        # suggestions should be any user with an ID that's not in this list:
+        # print(get_authorized_user_ids(self.current_user))
+        #return Response(json.dumps([]), mimetype="application/json", status=200)
 
 
 def initialize_routes(api):

@@ -16,9 +16,9 @@ class LikePost(db.Model):
     timestamp = db.Column(db.DateTime, nullable=False,
         default=datetime.utcnow)
 
-    def __init__(self, user_id, post_id):
-        self.user_id = user_id
-        self.post_id = post_id
+    def __init__(self, user_id:int, post_id:int):
+        self.user_id = int(user_id)
+        self.post_id = int(post_id)
 
     def to_dict(self):
         return {

@@ -59,6 +59,30 @@ class TestBookmarkListEndpoint(unittest.TestCase):
         # and check that it's gone:
         self.assertEqual(utils.get_bookmark_by_id(new_bookmark.get('id')), [])
 
+    def test_bookmark_post_with_post_id_as_string_still_valid_request_201(self):
+        post_id = utils.get_unbookmarked_post_id_by_user(self.current_user.get('id'))
+        body = {
+            'post_id': str(post_id)
+        }
+        response = requests.post(root_url + '/api/bookmarks', json=body)
+        # print(response.text)
+        new_bookmark = response.json()
+        self.assertEqual(response.status_code, 201)
+
+
+        # check that the values are in the returned json:
+        self.assertEqual(new_bookmark.get('post').get('id'), post_id)
+
+        # check that it's actually in the database:
+        bookmark_db = utils.get_bookmark_by_id(new_bookmark.get('id'))
+        self.assertEqual(bookmark_db.get('id'), new_bookmark.get('id'))
+
+        # now delete bookmark from DB:
+        utils.delete_bookmark_by_id(new_bookmark.get('id'))
+
+        # and check that it's gone:
+        self.assertEqual(utils.get_bookmark_by_id(new_bookmark.get('id')), [])
+
     def test_bookmark_post_no_duplicates_400(self):
         bookmark = utils.get_bookmarked_post_by_user(self.current_user.get('id'))
         body = {
@@ -78,10 +102,9 @@ class TestBookmarkListEndpoint(unittest.TestCase):
 
     def test_bookmark_post_invalid_post_id_404(self):
         body = {
-            'post_id': 999999,
-            'text': 'Some comment text'
+            'post_id': 999999
         }
-        response = requests.post(root_url + '/api/comments', json=body)
+        response = requests.post(root_url + '/api/bookmarks', json=body)
         # print(response.text)
         self.assertEqual(response.status_code, 404)
 
@@ -117,10 +140,10 @@ class TestBookmarkDetailEndpoint(unittest.TestCase):
         utils.restore_bookmark(bookmark_to_delete)
 
 
-    def test_bookmark_delete_invalid_id_format_400(self):
+    def test_bookmark_delete_invalid_id_format_404(self):
         url = '{0}/api/bookmarks/sdfsdfdsf'.format(root_url)
         response = requests.delete(url)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
         
     
     def test_bookmark_delete_invalid_id_404(self):
@@ -150,6 +173,7 @@ if __name__ == '__main__':
         
         # POST Tests:
         TestBookmarkListEndpoint('test_bookmark_post_valid_request_201'),
+        TestBookmarkListEndpoint('test_bookmark_post_with_post_id_as_string_still_valid_request_201'),
         TestBookmarkListEndpoint('test_bookmark_post_no_duplicates_400'),
         TestBookmarkListEndpoint('test_bookmark_post_invalid_post_id_format_400'),
         TestBookmarkListEndpoint('test_bookmark_post_invalid_post_id_404'),
@@ -158,7 +182,7 @@ if __name__ == '__main__':
 
         # DELETE Tests
         TestBookmarkDetailEndpoint('test_bookmark_delete_valid_200'),
-        TestBookmarkDetailEndpoint('test_bookmark_delete_invalid_id_format_400'),
+        TestBookmarkDetailEndpoint('test_bookmark_delete_invalid_id_format_404'),
         TestBookmarkDetailEndpoint('test_bookmark_delete_invalid_id_404'),
         TestBookmarkDetailEndpoint('test_bookmark_delete_unauthorized_id_404'),    
     ])

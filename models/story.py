@@ -14,9 +14,9 @@ class Story(db.Model):
     # read-only:
     user = db.relationship('User', backref="stories", lazy=False)
 
-    def __init__(self, text, user_id, pub_date=None):
+    def __init__(self, text:str, user_id:int, pub_date:datetime=None):
         self.text = text
-        self.user_id = user_id
+        self.user_id = int(user_id)
         self.pub_date = pub_date
     
     def __repr__(self):

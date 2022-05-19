@@ -1,5 +1,6 @@
 from datetime import datetime
 from . import db
+from .utils import get_display_time
 
 class Comment(db.Model):
     __tablename__ = 'comments'
@@ -16,10 +17,10 @@ class Comment(db.Model):
     # read-only:
     user = db.relationship('User', backref="comments", lazy=False)
 
-    def __init__(self, text, user_id, post_id):
+    def __init__(self, text:str, user_id:int, post_id:int):
         self.text = text
-        self.user_id = user_id
-        self.post_id = post_id
+        self.user_id = int(user_id)
+        self.post_id = int(post_id)
     
     def __repr__(self):
         return '<Comment %r>' % self.id
@@ -29,5 +30,6 @@ class Comment(db.Model):
             'id': self.id,
             'text': self.text,
             'post_id': self.post_id,
+            'display_time': get_display_time(self.pub_date),
             'user': self.user.to_dict()
         }

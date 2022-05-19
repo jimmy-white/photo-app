@@ -62,14 +62,14 @@ const allComments = (comments, post) => {
         </div>`
 }
 
-const destroyModal = ev => {
+const removeModal = ev => {
 
     document.querySelector('#modal-container').innerHTML = "";
     document.querySelector('body').style.overflow = 'scroll'
     document.getElementById('viewAllButton').focus()
 };
 
-const detail = ev => {
+const modal = ev => {
     const postId = ev.currentTarget.dataset.postId;
     fetch(`/api/posts/${postId}`)
 
@@ -79,22 +79,18 @@ const detail = ev => {
             for(var i=0; i<post.comments.length; i++){
                 commenthtml += allComments(post.comments[i], post)         }
             const html = `
-
-                <div class="bg">
-                    <div class="exit">
-                        <button id="exit"  onclick="destroyModal()"><a class="fas fa-times"></a></button>
+                <div class="background">
+                    <div class="remove">
+                        <button id="remove"  onclick="removeModal()"><a class="fas fa-times"></a></button>
                     </div>
-
                     <div class="modal">
                         <img src="${post.image_url}"/>
                         <div class="side">
                             <div class="top">
-
                                 <header>
                                     <img class="pic" src="${post.user.thumb_url}" alt="Profile photo for ${post.user.thumb_url} "/>
                                     <h1 id="username">${post.user.username}</h1>
                                 </header>
-
                             </div>
                             <div class="all-comments">
                             </div>
@@ -106,23 +102,20 @@ const detail = ev => {
             document.querySelector('.all-comments').innerHTML = commenthtml;
             document.querySelector('body').style.overflow = 'hidden'
 
-            document.getElementById('exit').focus()
+            document.getElementById('remove').focus()
         })
 };
+
 const updatePost2HTML = post => {
     return `
     <div class = "header">
         <h2>${post.user.username}</h2>
         <a class="fas fa-ellipsis-h"></a>
     </div>
-
-
     <img src="${post.image_url}" alt="${post.alt_text}">
     <div class="main">
         <div class="buttons">
             <section class="imain">
-
-
                 <button onclick="likeUnlike(event)" data-post-id= "${post.id}" ${post.current_user_like_id ? `data-like-id = "${post.current_user_like_id}"`: ''}>
                     <a class="fa${post.current_user_like_id ? 's': 'r'} fa-heart"></a>
                 </button>
@@ -130,9 +123,7 @@ const updatePost2HTML = post => {
                 <a class="far fa-paper-plane"></a>
             </section>
             <section id="bookmark">
-
-
-                <button onclick="bookmarkaway(event)" 
+                <button onclick="tobookmark(event)" 
                         data-post-id= "${post.id}" 
                         ${post.current_user_bookmark_id ? `data-bookmark-id = "${post.current_user_bookmark_id}"`: ''}>
                         ${post.current_user_bookmark_id ? '<a class="fas fa-bookmark"></a>' : '<a class="far fa-bookmark"></a>'}
@@ -140,19 +131,13 @@ const updatePost2HTML = post => {
             </section>   
         </div>
         <span class="likes"><strong> ${post.likes.length} likes</strong></span>
-
-
         <div class="caption">
             <span><strong>${post.user.username}</strong></span>
             <span id="cap">${post.caption}</span>
             <span id="more"><a href="" target="_blank">more</a></span>
         </div>
-
         ${post.comments.length > 1 ? `<p class="view"><button class="link" id="viewAllButton" data-post-id= "${post.id}"onclick="showPostDetail(event)">View all ${post.comments.length} comments</button></p>`: '' }
         <div class="comments">
-
-
-
             <section>
                 <span><strong>${post.comments.length != 0 ? `${post.comments[0].user.username}`: ''}</strong></span>
                 <span> ${post.comments.length != 0 ? `${post.comments[0].text}`: ''}</span>
@@ -180,19 +165,13 @@ const post2HTML = post =>{
         <img src="${post.image_url}" alt="${post.alt_text}">
         <div class="main">
             <div class="buttons">
-
                 <section class="imain">
-
                     <button ${likeButton(post)}</button>
                     <a class="far fa-comment"></a>
                     <a class="far fa-paper-plane"></a>
-
-
-
-
                 </section>
                 <section id="bookmark">
-                    <button onclick="bookmarkaway(event)" 
+                    <button onclick="tobookmark(event)" 
                             data-post-id= "${post.id}" 
                             ${post.current_user_bookmark_id ? `data-bookmark-id = "${post.current_user_bookmark_id}"`: ''}>
                         ${post.current_user_bookmark_id ? '<a class="fas fa-bookmark"></a>' : '<a class="far fa-bookmark"></a>'}
@@ -201,13 +180,11 @@ const post2HTML = post =>{
             </div>
             <span class="likes"><strong> ${post.likes.length} likes</strong></span>
             <div class="caption">
-
                 <span><strong>${post.user.username}</strong></span>
                 <span>${post.caption}</span>
                 <span><a href="" target="_blank">more</a></span>
-
             </div>
-            ${post.comments.length > 1 ? `<p class="view"><button class="link" id="viewAllButton" data-post-id= "${post.id}"onclick="detail(event)">View all ${post.comments.length} comments</button></p>`: '' }
+            ${post.comments.length > 1 ? `<p class="view"><button class="link" id="viewAllButton" data-post-id= "${post.id}"onclick="modal(event)">View all ${post.comments.length} comments</button></p>`: '' }
             <div class="comments">
                 <section>
                     <span><strong>${post.comments.length != 0 ? `${post.comments[0].user.username}`: ''}</strong></span>
@@ -218,10 +195,8 @@ const post2HTML = post =>{
         </div>
         <div class="addcomment">
             <section>
-
                 <a class="far fa-smile"></a>
             </section>
-
             <input type="text" aria-label="Add a comment"  placeholder="Add a comment ..." id="comment-text-${post.id}">
             <button id="post" class="link" onclick="addComment(event, ${post.id})" data-post-id= "${post.id}">Post</button>
         </div>
@@ -235,19 +210,17 @@ const comment2HTML = (post, commentInfo) => {
         <a class="fas fa-ellipsis-h"></a>
     </div>
     <img src="${post.image_url}" alt="${post.alt_text}">
-
     <div class="main">
         <div class="buttons">
             <section class="imain">
                 <button onclick="likeUnlike(event)" data-post-id= "${post.id}" ${post.current_user_like_id ? `data-like-id = "${post.current_user_like_id}"`: ''}>
                     <a class="fa${post.current_user_like_id ? 's': 'r'} fa-heart"></a>
-
                 </button>
                 <a class="far fa-comment"></a>
                 <a class="far fa-paper-plane"></a>
             </section>
             <section id="bookmark">
-                <button onclick="bookmarkaway(event)" 
+                <button onclick="tobookmark(event)" 
                         data-post-id= "${post.id}" 
                         ${post.current_user_bookmark_id ? `data-bookmark-id = "${post.current_user_bookmark_id}"`: ''}>
                         ${post.current_user_bookmark_id ? '<a class="fas fa-bookmark"></a>' : 
@@ -257,35 +230,25 @@ const comment2HTML = (post, commentInfo) => {
         </div>
         <span class="likes"><strong> ${post.likes.length} likes</strong></span>
         <div class="caption">
-
             <span><strong>${post.user.username}</strong></span>
             <span>${post.caption}</span>
             <span id="more"><a href="" target="_blank">more</a></span>
         </div>
         <p class="timestamp">${post.display_time}</p>
-        ${post.comments.length > 1 ? `<p class="view"><button  class="link" id="viewAllButton" data-post-id= "${post.id}"onclick="detail(event)">View all ${post.comments.length} comments</button></p>`: '' }
+        ${post.comments.length > 1 ? `<p class="view"><button  class="link" id="viewAllButton" data-post-id= "${post.id}"onclick="modal(event)">View all ${post.comments.length} comments</button></p>`: '' }
         <div class="comments">
             <section>
                 <span><strong>${post.comments.length != 0 ? `${commentInfo.user.username}`: ''}</strong></span>
                 <span> ${post.comments.length != 0 ? `${commentInfo.text}`: ''}</span>
-
-
             </section>
-
         </div>  
     </div>
     <div class="addcomment">
-
         <section>
             <a class="far fa-smile"></a>
-
         </section>
         <input type="text" aria-label="Add a comment"  placeholder="Add a comment ..." id="comment-text-${post.id}">
-
         <button id="post" class="link" onclick="addComment(event, ${post.id})" data-post-id= "${post.id}">Post</button>
-
-
-
     </div>`
 
 }
@@ -364,14 +327,14 @@ const userHTML = user =>{
                     <button 
                         data-user-id="${user.id}"
             
-                        onclick="hover_follow(event);
+                        onclick="to_follow(event);
                         " class= "link">follow</button>
                 </div>
             </section>`
 };
 
 // making the bookmark button work
-const bookmarkaway = ev =>{
+const tobookmark = ev =>{
     console.log(ev)
     const elem = ev.currentTarget
     console.log(elem)
@@ -379,16 +342,16 @@ const bookmarkaway = ev =>{
 
     if (ev.currentTarget.getAttribute("data-bookmark-id") !==null) {
 
-        const bkmarkId = elem.getAttribute("data-bookmark-id")
+        const bookmarkId = elem.getAttribute("data-bookmark-id")
         console.log('unbookmark')
-        unbk(postId, bkmarkId, elem)
+        unbookmark(postId, bookmarkId, elem)
     }
     else{
         console.log('bookmark')
-        bk(postId, elem)
+        bookmark(postId, elem)
     }
 }
-const bk = (postId, elem) => {
+const bookmark = (postId, elem) => {
     const postData = {
         "post_id": postId
     };
@@ -406,12 +369,12 @@ const bk = (postId, elem) => {
             elem.setAttribute('data-bookmark-id', data.id);
             elem.setAttribute('aria-checked', 'true');
             elem.setAttribute('aria-label', 'bookmarked');
-            updatePost(postId);
+            redrawPost(postId);
         });
 }
-const  unbk = (postId, bkmarkId, elem) => {
-    const deletebkmarkUrl = `http://localhost:5000/api/bookmarks/${bkmarkId}`
-    fetch(deletebkmarkUrl, {
+const  unbookmark = (postId, bookmarkId, elem) => {
+    const deletebookmarkUrl = `http://localhost:5000/api/bookmarks/${bookmarkId}`
+    fetch(deletebookmarkUrl, {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json',
@@ -424,27 +387,28 @@ const  unbk = (postId, bkmarkId, elem) => {
         elem.removeAttribute('data-bookmark-id');
         elem.setAttribute('aria-checked', 'false');
         elem.setAttribute('aria-label', 'unbookmarked');
-        updatePost(postId);
+        redrawPost(postId);
     });
 }
 
-const updatePost = elem => {
-    const postId = Number(elem.dataset.postId)
-    fetch(`/api/posts/${postId}`)
+const redrawPost = PostId => {
+    fetch(`/api/posts/${PostId}`)
     .then(response => response.json())
-    .then(newPost => {
-        console.log(newPost);
-        const html = post2HTML(newPost)
-        const newElem = stringToHTML(html);
-        const postElem = document.querySelector(`#post_${postId}`)
-        postElem.innerHTML = newElem.innerHTML
-    });
-}
+    .then(updatedPost =>{
+        console.log(updatedPost);
+        const html = post2HTML(updatedPost);
+        document.querySelector("[data-post-id=" + CSS.escape(PostId) + "]").innerHTML = html;
+        //const newElement = stringToHTML(html);
+        //const postElement = document.querySelector(`#post_${PostId}`);
+        //postElement.innerHTML = newElement.innerHTML;
+        });
+
+};
 
 const stringToHTML = htmlString => {
     var parser = new DOMParser();
-    var doc = parser.parseFromString(htmlString, 'text/html')
-    return doc.body.firstChild
+    var doc = parser.parseFromString(htmlString, 'text/html');
+    return doc.body.firstChild;
 }
 
 const likeButton = post => {
@@ -455,7 +419,7 @@ const likeButton = post => {
                 data-like-id="${post.current_user_like_id}"
                 aria-label="Like/Unlike"
                 aria-checked="true"
-                onclick="handleLikeUnlike(event)">
+                onclick="LikeUnlike(event)">
                 <i class="fas fa-heart"></i>
             </button>
         `
@@ -466,14 +430,14 @@ const likeButton = post => {
                 data-post-id= "${post.id}"
                 aria-label="Like/Unlike"
                 aria-checked="false"
-                onclick="handleLikeUnlike(event)">
+                onclick="LikeUnlike(event)">
                 <i class="far fa-heart"></i>
             </button>
         `
     }
 }
 
-const handleLikeUnlike = ev => {
+const LikeUnlike = ev => {
     const elem = ev.currentTarget
     if (elem.getAttribute('aria-checked') === 'true') {
         console.log('unlike')
@@ -486,44 +450,52 @@ const handleLikeUnlike = ev => {
 }
 
 const likePost = elem => {
-    const postId = Number(elem.dataset.postId)
-    const postData = { "post_id": postId };
-    fetch(`api/posts/${postId}/likes/`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(postData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            //elem.setAttribute('data-like-id', data.id);
-            //elem.setAttribute('aria-checked', 'true');
-            //elem.setAttribute('aria-label', 'liked');
-            updatePost(elem);
-        });
-}
+    const postId =  Number(elem.dataset.postId)
+    console.log('like post', elem);
+    const postData = {
+        "post_id": postId
+    }
+    fetch("/api/posts/likes",{
+        method:"POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData)
+    })
+    
+    .then(response => response.json())
+    .then(data=> {
+        console.log(data);
+        elem.setAttribute('data-like-id', data.id);
+        elem.setAttribute('aria-checked', 'true');
+        elem.setAttribute('aria-label', 'liked');
+        redrawPost(postId);
+        //redraw the post
+    });
+};
+
 const unlikePost = elem => {
-    const postId = Number(elem.dataset.postId)
-    const deleteLikeUrl = `/api/posts/${postId}/likes/${elem.dataset.likeId}`
-    fetch(deleteLikeUrl, {
-        method: "DELETE",
+    const postId =  Number(elem.dataset.postId)
+    console.log('unlike post', elem);
+    fetch(`/api/posts/likes/${elem.dataset.likeId}`,{
+        method:"DELETE",
         headers: {
             'Content-Type': 'application/json',
         }
     })
     .then(response => response.json())
-    .then(data => {
+    .then(data=> {
         console.log(data);
-        //elem.removeAttribute('data-like-id');
-        //elem.setAttribute('aria-checked', 'false');
-        //elem.setAttribute('aria-label', 'unliked');
-        updatePost(elem);
+        console.log('redraw the posr')
+        elem.removeAttribute('data-like-id');
+        elem.setAttribute('aria-checked', 'false');
+        elem.setAttribute('aria-label', 'unliked');
+        redrawPost(postId);
+        //redraw the post
     });
-}
+};
 
-const hover_follow = ev =>{
+const to_follow = ev =>{
     console.log(ev);
     console.log(ev.currentTarget);
     const elem = ev.currentTarget;
