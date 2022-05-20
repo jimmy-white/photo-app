@@ -30,7 +30,7 @@ class PostListEndpoint(Resource):
             limit = 20 
         posts = posts.order_by(Post.pub_date.desc()).limit(limit)
         data = [
-            item.to_dict() for item in posts.all()
+            item.to_dict(user=self.current_user) for item in posts.all()
         ]
         return Response(json.dumps(data), mimetype="application/json", status=200)
         # 1. No security implemented; 
@@ -116,7 +116,7 @@ class PostDetailEndpoint(Resource):
 
         if post.user_id not in get_authorized_user_ids(self.current_user) :
             return Response(json.dumps({'message': 'Post does not exist'}), mimetype="application/json", status=404)
-        return Response(json.dumps(post.to_dict()), mimetype="application/json", status=200)
+        return Response(json.dumps(post.to_dict(user=self.current_user)), mimetype="application/json", status=200)
 
 def initialize_routes(api):
     api.add_resource(
