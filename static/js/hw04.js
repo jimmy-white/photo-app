@@ -227,7 +227,7 @@ const Text = (elem, postId, text) => {
         "text": text
     };
     
-    fetch("http://localhost:5000/api/comments", {
+    fetch("api/comments", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -307,7 +307,7 @@ const bookmark = (postId, elem) => {
         "post_id": postId
     };
     
-    fetch("http://localhost:5000/api/bookmarks/", {
+    fetch("api/bookmarks/", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -324,7 +324,7 @@ const bookmark = (postId, elem) => {
         });
 }
 const  unbookmark = (postId, bookmarkId, elem) => {
-    const deletebookmarkUrl = `http://localhost:5000/api/bookmarks/${bookmarkId}`
+    const deletebookmarkUrl = `api/bookmarks/${bookmarkId}`
     fetch(deletebookmarkUrl, {
         method: "DELETE",
         headers: {
@@ -464,7 +464,7 @@ const followUser = (userId, elem) => {
         "user_id": userId
     };
     
-    fetch("http://localhost:5000/api/following/", {
+    fetch("api/following/", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -483,7 +483,7 @@ const followUser = (userId, elem) => {
 }
 // Unfollow fetch function
 const unfollowUser = (followingId, elem) => {
-    const deleteURL = `http://localhost:5000/api/following/${followingId}`
+    const deleteURL = `api/following/${followingId}`
     fetch(deleteURL, {
         method: "DELETE",
     })
