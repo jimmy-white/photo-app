@@ -62,11 +62,11 @@ const allComments = (comments, post) => {
         </div>`
 }
 
-const removeModal = ev => {
+const removeModal = (ev, postId) => {
 
     document.querySelector('#modal-container').innerHTML = "";
     document.querySelector('body').style.overflow = 'scroll'
-    document.getElementById('viewAllButton').focus()
+    document.getElementById(`viewAllButton+${postId}`).focus()
 };
 
 const modal = ev => {
@@ -81,7 +81,7 @@ const modal = ev => {
             const html = `
                 <div class="background">
                     <div class="remove">
-                        <button id="remove"  onclick="removeModal()"><a class="fas fa-times"></a></button>
+                        <button id="remove"  onclick="removeModal(event, ${postId})"><a class="fas fa-times"></a></button>
                     </div>
                     <div class="modal">
                         <img src="${post.image_url}"/>
@@ -105,55 +105,6 @@ const modal = ev => {
             document.getElementById('remove').focus()
         })
 };
-
-const updatePost2HTML = post => {
-    return `
-    <div class = "header">
-        <h2>${post.user.username}</h2>
-        <a class="fas fa-ellipsis-h"></a>
-    </div>
-    <img src="${post.image_url}" alt="${post.alt_text}">
-    <div class="main">
-        <div class="buttons">
-            <section class="imain">
-                <button onclick="likeUnlike(event)" data-post-id= "${post.id}" ${post.current_user_like_id ? `data-like-id = "${post.current_user_like_id}"`: ''}>
-                    <a class="fa${post.current_user_like_id ? 's': 'r'} fa-heart"></a>
-                </button>
-                <a class="far fa-comment"></a>
-                <a class="far fa-paper-plane"></a>
-            </section>
-            <section id="bookmark">
-                <button onclick="tobookmark(event)" 
-                        data-post-id= "${post.id}" 
-                        ${post.current_user_bookmark_id ? `data-bookmark-id = "${post.current_user_bookmark_id}"`: ''}>
-                        ${post.current_user_bookmark_id ? '<a class="fas fa-bookmark"></a>' : '<a class="far fa-bookmark"></a>'}
-                </button>
-            </section>   
-        </div>
-        <span class="likes"><strong> ${post.likes.length} likes</strong></span>
-        <div class="caption">
-            <span><strong>${post.user.username}</strong></span>
-            <span id="cap">${post.caption}</span>
-            <span id="more"><a href="" target="_blank">more</a></span>
-        </div>
-        ${post.comments.length > 1 ? `<p class="view"><button class="link" id="viewAllButton" data-post-id= "${post.id}"onclick="showPostDetail(event)">View all ${post.comments.length} comments</button></p>`: '' }
-        <div class="comments">
-            <section>
-                <span><strong>${post.comments.length != 0 ? `${post.comments[0].user.username}`: ''}</strong></span>
-                <span> ${post.comments.length != 0 ? `${post.comments[0].text}`: ''}</span>
-            </section>
-            <p class="timestamp"> ${post.display_time} </p>
-        </div>  
-    </div>
-    <div class="addcomment">
-        <section>
-            <a class="far fa-smile"></a>
-        </section>
-        <input type="text" aria-label="Add a comment"  placeholder="Add a comment ..." id="comment-text-${post.id}">
-        <button id="post" class="link" onclick="addComment(event, ${post.id})" data-post-id= "${post.id}">Post</button>
-    </div>`
-};
-
 
 const post2HTML = post =>{
     return `
@@ -184,7 +135,7 @@ const post2HTML = post =>{
                 <span>${post.caption}</span>
                 <span><a href="" target="_blank">more</a></span>
             </div>
-            ${post.comments.length > 1 ? `<p class="view"><button class="link" id="viewAllButton" data-post-id= "${post.id}"onclick="modal(event)">View all ${post.comments.length} comments</button></p>`: '' }
+            ${post.comments.length > 1 ? `<p class="view"><button class="link" id="viewAllButton+${post.id}" data-post-id= "${post.id}"onclick="modal(event)">View all ${post.comments.length} comments</button></p>`: '' }
             <div class="comments">
                 <section>
                     <span><strong>${post.comments.length != 0 ? `${post.comments[0].user.username}`: ''}</strong></span>
