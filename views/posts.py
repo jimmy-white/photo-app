@@ -4,6 +4,7 @@ from models import Post, db, Following
 from views import get_authorized_user_ids, can_view_post
 
 import json
+import flask_jwt_extended
 
 def get_path():
     return request.host_url + 'api/posts/'
@@ -13,6 +14,7 @@ class PostListEndpoint(Resource):
     def __init__(self, current_user):
         self.current_user = current_user
 
+    @flask_jwt_extended.jwt_required()
     def get(self):
         ids_for_me_and_my_friends = get_authorized_user_ids(self.current_user)
         posts = Post.query.filter(Post.user_id.in_(ids_for_me_and_my_friends))
@@ -40,7 +42,7 @@ class PostListEndpoint(Resource):
         
         #return Response(json.dumps([]), mimetype="application/json", status=200)
     
-
+    @flask_jwt_extended.jwt_required()
     def post(self):
         # create a new post based on the data posted in the body 
         body = request.get_json()
@@ -65,7 +67,7 @@ class PostDetailEndpoint(Resource):
     def __init__(self, current_user):
         self.current_user = current_user
         
-
+    @flask_jwt_extended.jwt_required()
     def patch(self, id):
         if not str(id).isdigit():
             return Response(json.dumps({'message': 'Invalid ID '}), mimetype="application/json", status=400)
@@ -85,7 +87,7 @@ class PostDetailEndpoint(Resource):
         db.session.commit()        
         return Response(json.dumps(post.to_dict()), mimetype="application/json", status=200)
 
-
+    @flask_jwt_extended.jwt_required()
     def delete(self, id):
         if not str(id).isdigit(): 
             return Response(json.dumps({'message': 'invalid Id '}), mimetype="application/json", status=400)
@@ -102,7 +104,7 @@ class PostDetailEndpoint(Resource):
         }
         return Response(json.dumps(serialized_data), mimetype="application/json", status=200)
 
-
+    @flask_jwt_extended.jwt_required()
     def get(self, id):
         if not str(id).isdigit():
             return Response(json.dumps({'message': 'invalid ID'}), mimetype="application/json", status=400)
@@ -122,10 +124,10 @@ def initialize_routes(api):
     api.add_resource(
         PostListEndpoint, 
         '/api/posts', '/api/posts/', 
-        resource_class_kwargs={'current_user': api.app.current_user}
+        resource_class_kwargs={'current_user': flask_jwt_extended.current_user}
     )
     api.add_resource(
         PostDetailEndpoint, 
         '/api/posts/<int:id>', '/api/posts/<int:id>/',
-        resource_class_kwargs={'current_user': api.app.current_user}
+        resource_class_kwargs={'current_user': flask_jwt_extended.current_user}
     )

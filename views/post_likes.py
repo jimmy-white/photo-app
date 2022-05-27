@@ -3,12 +3,14 @@ from flask_restful import Resource
 from models import LikePost, db, Post
 import json
 from views import can_view_post, get_authorized_user_ids
+import flask_jwt_extended
 
 class PostLikesListEndpoint(Resource):
 
     def __init__(self, current_user):
         self.current_user = current_user
     
+    @flask_jwt_extended.jwt_required()
     def post(self):
         req = request.get_json()
         post_id = req.get('post_id')
@@ -35,6 +37,7 @@ class PostLikesDetailEndpoint(Resource):
     def __init__(self, current_user):
         self.current_user = current_user
     
+    @flask_jwt_extended.jwt_required()
     def delete(self, id):
         # a user can only delete their own post:
         if not str(id).isdigit():
@@ -61,12 +64,12 @@ def initialize_routes(api):
         PostLikesListEndpoint, 
         '/api/posts/likes', 
         '/api/posts/likes/', 
-        resource_class_kwargs={'current_user': api.app.current_user}
+        resource_class_kwargs={'current_user': flask_jwt_extended.current_user}
     )
 
     api.add_resource(
         PostLikesDetailEndpoint, 
         '/api/posts/likes/<int:id>', 
         '/api/posts/likes/<int:id>/',
-        resource_class_kwargs={'current_user': api.app.current_user}
+        resource_class_kwargs={'current_user': flask_jwt_extended.current_user}
     )

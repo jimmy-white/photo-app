@@ -62,11 +62,11 @@ const allComments = (comments, post) => {
         </div>`
 }
 
-const removeModal = (ev, postId) => {
+const removeModal = (ev, PostId) => {
 
     document.querySelector('#modal-container').innerHTML = "";
     document.querySelector('body').style.overflow = 'scroll'
-    document.getElementById(`viewAllButton+${postId}`).focus()
+    document.getElementById(`viewAllButton+${PostId}`).focus()
 };
 
 const modal = ev => {
@@ -83,7 +83,7 @@ const modal = ev => {
                     <div class="remove">
                         <button id="remove"  onclick="removeModal(event, ${postId})"><a class="fas fa-times"></a></button>
                     </div>
-                    <div class="modal">
+                    <div class="modal" role="dialog">
                         <img src="${post.image_url}"/>
                         <div class="side">
                             <div class="top">
@@ -105,6 +105,7 @@ const modal = ev => {
             document.getElementById('remove').focus()
         })
 };
+
 
 const post2HTML = post =>{
     return `
@@ -227,10 +228,11 @@ const Text = (elem, postId, text) => {
         "text": text
     };
     
-    fetch("api/comments", {
+    fetch("/api/comments", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': getCookie('csrf_access_token')
             },
             body: JSON.stringify(postData)
         })
@@ -307,10 +309,11 @@ const bookmark = (postId, elem) => {
         "post_id": postId
     };
     
-    fetch("api/bookmarks/", {
+    fetch("/api/bookmarks/", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': getCookie('csrf_access_token')
             },
             body: JSON.stringify(postData)
         })
@@ -324,11 +327,12 @@ const bookmark = (postId, elem) => {
         });
 }
 const  unbookmark = (postId, bookmarkId, elem) => {
-    const deletebookmarkUrl = `api/bookmarks/${bookmarkId}`
+    const deletebookmarkUrl = `/api/bookmarks/${bookmarkId}`
     fetch(deletebookmarkUrl, {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': getCookie('csrf_access_token')
         }
     })
     .then(response => response.json())
@@ -410,6 +414,7 @@ const likePost = elem => {
         method:"POST",
         headers: {
             'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': getCookie('csrf_access_token')
         },
         body: JSON.stringify(postData)
     })
@@ -432,6 +437,7 @@ const unlikePost = elem => {
         method:"DELETE",
         headers: {
             'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': getCookie('csrf_access_token')
         }
     })
     .then(response => response.json())
@@ -464,10 +470,11 @@ const followUser = (userId, elem) => {
         "user_id": userId
     };
     
-    fetch("api/following/", {
+    fetch("/api/following/", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': getCookie('csrf_access_token')
             },
             body: JSON.stringify(postData)
         })
@@ -483,7 +490,7 @@ const followUser = (userId, elem) => {
 }
 // Unfollow fetch function
 const unfollowUser = (followingId, elem) => {
-    const deleteURL = `api/following/${followingId}`
+    const deleteURL = `/api/following/${followingId}`
     fetch(deleteURL, {
         method: "DELETE",
     })
@@ -498,6 +505,22 @@ const unfollowUser = (followingId, elem) => {
         elem.setAttribute('aria-label', 'follow');
     });
 }
+
+const getCookie = key => {
+    let name = key + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+};
 
 const initPage = () => {
     getUserProfile();
